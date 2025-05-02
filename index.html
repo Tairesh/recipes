@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,24 +18,29 @@
             display: flex;
             flex-direction: column;
         }
+
         #main-content {
             flex-grow: 1;
             overflow-y: auto;
             padding-top: 1rem;
             padding-bottom: 90px;
         }
+
         /* Central Add Button (User modified - DO NOT TOUCH) */
         .central-add-button {
-            border: 2px solid; border-radius: 100%;
+            border: 2px solid;
+            border-radius: 100%;
             background: linear-gradient(to right bottom, #f0fdf4, #dcfce7);
             box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
             transform: translateY(-15px);
             transition: all 0.2s ease-in-out;
         }
+
         .central-add-button:active {
-             transform: translateY(-12px) scale(0.98);
-             box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
+            transform: translateY(-12px) scale(0.98);
+            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
         }
+
         /* Bottom Nav Icons */
         .nav-icon { width: 24px; height: 24px; stroke-width: 2; }
         .nav-icon-large { width: 32px; height: 32px; stroke-width: 2; color: #16a34a; }
@@ -78,28 +84,11 @@
             z-index: 10;
         }
         .fullscreen-content { flex-grow: 1; padding: 1rem; }
-        .recipe-view-header-button {
-            padding: 0.5rem;
-            color: #4b5563;
-            transition: color 0.2s ease-in-out;
-        }
+        .recipe-view-header-button { padding: 0.5rem; color: #4b5563; transition: color 0.2s ease-in-out; }
         .recipe-view-header-button:hover { color: #1f2937; }
-        .recipe-view-header-button svg {
-             width: 24px;
-             height: 24px;
-             stroke-width: 2;
-             stroke: black; 
-        }
-        #favorite-button-view.is-favorite svg {
-             color: #fbbf24;
-             fill: currentColor;
-             transform: scale(1.1);
-         }
-         #favorite-button-view:not(.is-favorite) svg {
-             color: #9ca3af;
-             fill: none;
-             stroke: black;
-         }
+        .recipe-view-header-button svg { width: 24px; height: 24px; stroke-width: 2; stroke: black; }
+        #favorite-button-view.is-favorite svg { color: #fbbf24; fill: currentColor; transform: scale(1.1); stroke: #fbbf24; }
+        #favorite-button-view:not(.is-favorite) svg { color: #9ca3af; fill: none; stroke: black; }
 
         /* Image Overlay (Recipe View) */
         .image-container { position: relative; }
@@ -132,9 +121,20 @@
             outline: none; border-color: #22c55e;
             box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
         }
-        .form-textarea { min-height: 120px; resize: vertical; }
-        .ingredient-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+        .form-textarea { resize: none; overflow: hidden; line-height: 1.6; }
+        .ingredient-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; background-color: white; border: 1px solid transparent; }
+        .ingredient-row.dragging { opacity: 0.5; background-color: #f0fdf4; border-color: #a7f3d0; } /* Added border during drag */
+        .ingredient-row.drag-over { border-bottom: 2px solid #16a34a; }
+
         .ingredient-row input { flex-grow: 1; }
+        .drag-handle {
+            display: flex; align-items: center; justify-content: center;
+            padding: 0.5rem 0.25rem; cursor: grab; color: #9ca3af;
+            touch-action: none; /* Important for touch */
+        }
+        .drag-handle:active { cursor: grabbing; }
+        .drag-handle svg { width: 16px; height: 16px; stroke: #9ca3af; }
+
         .remove-ingredient-btn {
             padding: 0.3rem; background-color: #fee2e2; color: #ef4444;
             border-radius: 50%; line-height: 1; transition: background-color 0.2s;
@@ -159,12 +159,16 @@
         #side-menu { transition: transform 0.3s ease-in-out; }
     </style>
 </head>
+
 <body class="bg-gray-50 h-screen flex flex-col relative overflow-hidden">
 
     <main id="main-content" class="p-4 space-y-6">
-        <section> <h2 class="text-lg font-semibold mb-3 text-green-900">Your Quick Access</h2> <div class="grid grid-cols-3 gap-3"> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/a7f3d0/14532d?text=Pasta" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Classic Pasta Bake</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/86efac/14532d?text=Salad" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Summer Quinoa Salad</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-blue-100 text-blue-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Fast </span> <span class="tag bg-lime-100 text-lime-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662v4.286h1.5a.75.75 0 0 1 .75.75V19.5a.75.75 0 0 1-.75.75h-1.5v1.138c0 .987.802 1.79 1.789 1.79h6.422c.987 0 1.79-.802 1.79-1.79V20.25h-1.5a.75.75 0 0 1-.75-.75V16.5a.75.75 0 0 1 .75.75h1.5v-4.286Z" /></svg> Vegan </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/4ade80/14532d?text=Soup" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Hearty Lentil Soup</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-lime-100 text-lime-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662v4.286h1.5a.75.75 0 0 1 .75.75V19.5a.75.75 0 0 1-.75.75h-1.5v1.138c0 .987.802 1.79 1.789 1.79h6.422c.987 0 1.79-.802 1.79-1.79V20.25h-1.5a.75.75 0 0 1-.75-.75V16.5a.75.75 0 0 1 .75.75h1.5v-4.286Z" /></svg> Vegan </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/22c55e/14532d?text=Chicken" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Roast Chicken Simple</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-orange-100 text-orange-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Long </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/10b981/f0fdfa?text=Fish" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Baked Salmon</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-blue-100 text-blue-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Fast </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/059669/e0f2f1?text=Tacos" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Spicy Beef Tacos</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div> </div> </div> </section>
-        <section> <h2 class="text-lg font-semibold mb-3 text-green-900">Trending Now</h2> <div class="grid grid-cols-3 gap-3"> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/400x250/16a34a/f0fdf4?text=Cake" alt="Recipe Image" class="w-full community-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Amazing Chocolate Cake</h3> <p class="text-xxs text-gray-500 mt-0.5 mb-1">By @CookMaster</p> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/400x250/34d399/166534?text=Curry" alt="Recipe Image" class="w-full community-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Vegan Thai Green Curry</h3> <p class="text-xxs text-gray-500 mt-0.5 mb-1">By @GreenEats</p> <div class="flex flex-wrap items-center"> <span class="tag bg-blue-100 text-blue-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Fast </span> <span class="tag bg-lime-100 text-lime-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662v4.286h1.5a.75.75 0 0 1 .75.75V19.5a.75.75 0 0 1-.75.75h-1.5v1.138c0 .987.802 1.79 1.789 1.79h6.422c.987 0 1.79-.802 1.79-1.79V20.25h-1.5a.75.75 0 0 1-.75-.75V16.5a.75.75 0 0 1 .75.75h1.5v-4.286Z" /></svg> Vegan </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/400x250/6ee7b7/14532d?text=Bread" alt="Recipe Image" class="w-full community-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">No-Knead Artisan Bread</h3> <p class="text-xxs text-gray-500 mt-0.5 mb-1">By @BakerJoy</p> <div class="flex flex-wrap items-center"> <span class="tag bg-orange-100 text-orange-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Long </span> </div> </div> </div> </div> </section>
-        <section> <h2 class="text-lg font-semibold mb-3 text-green-900">Discover More</h2> <div class="bg-gradient-to-br from-green-100 to-green-200 p-6 rounded-lg text-center"> <p class="text-green-800">New sections and features coming soon!</p> <div class="flex justify-center space-x-4 mt-4 text-green-600 opacity-50"> <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" /></svg> <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg> </div> </div> </section>
+        <section> <h2 class="text-lg font-semibold mb-3 text-green-900">Try now:</h2> <div class="grid grid-cols-3 gap-3"> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/fde68a/ca8a04?text=Omelette" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Fluffy Omelette</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-blue-100 text-blue-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Fast </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/fecaca/b91c1c?text=Chili" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Quick Veggie Chili</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> <span class="tag bg-lime-100 text-lime-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662v4.286h1.5a.75.75 0 0 1 .75.75V19.5a.75.75 0 0 1-.75.75h-1.5v1.138c0 .987.802 1.79 1.789 1.79h6.422c.987 0 1.79-.802 1.79-1.79V20.25h-1.5a.75.75 0 0 1-.75-.75V16.5a.75.75 0 0 1 .75.75h1.5v-4.286Z" /></svg> Vegan </span> </div> </div> </div> </div> </section>
+        <section> <h2 class="text-lg font-semibold mb-3 text-green-900">Your quick access</h2> <div class="grid grid-cols-3 gap-3"> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/059669/e0f2f1?text=Tacos" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Spicy Beef Tacos</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/22c55e/14532d?text=Chicken" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Roast Chicken Simple</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-orange-100 text-orange-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Long </span> </div> </div> </div> </div> </section>
+        <section> <h2 class="text-lg font-semibold mb-3 text-green-900">Favorites</h2> <div class="grid grid-cols-3 gap-3"> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/a7f3d0/14532d?text=Pasta" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Classic Pasta Bake</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/059669/e0f2f1?text=Tacos" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Spicy Beef Tacos</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div> </div> </div> </section>
+        <section> <h2 class="text-lg font-semibold mb-3 text-green-900">Your cookbook</h2> <div class="grid grid-cols-3 gap-3"> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/4ade80/14532d?text=Soup" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Hearty Lentil Soup</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-lime-100 text-lime-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662v4.286h1.5a.75.75 0 0 1 .75.75V19.5a.75.75 0 0 1-.75.75h-1.5v1.138c0 .987.802 1.79 1.789 1.79h6.422c.987 0 1.79-.802 1.79-1.79V20.25h-1.5a.75.75 0 0 1-.75-.75V16.5a.75.75 0 0 1 .75.75h1.5v-4.286Z" /></svg> Vegan </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/a7f3d0/14532d?text=Pasta" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Classic Pasta Bake</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div> </div> </div> </section>
+        <section> <h2 class="text-lg font-semibold mb-3 text-green-900">Discover More</h2> <div class="bg-gradient-to-br from-green-100 to-green-200 p-6 rounded-lg text-center"> <p class="text-green-800">New sections and features coming soon!</p> <div class="flex justify-center space-x-4 mt-4 text-green-600 opacity-50"> <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 0 1 6.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0 1 20 13a7.975 7.975 0 0 1-2.343 5.657z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" /></svg> <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg> </div> </div> </section>
+
     </main>
 
     <footer id="app-footer" class="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-green-100 to-white px-4 pt-2 pb-3 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-20">
@@ -178,7 +182,7 @@
     </footer>
 
     <div id="recipe-view" hidden>
-        <div class="fullscreen-header">
+         <div class="fullscreen-header">
             <button id="back-button" class="recipe-view-header-button"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg> </button>
             <div class="flex items-center space-x-1">
                  <button id="edit-button" class="recipe-view-header-button"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" /> </svg>
@@ -189,9 +193,10 @@
         </div>
         <div class="fullscreen-content space-y-5">
             <div class="image-container">
-                <img id="recipe-view-image" src="https://placehold.co/600x400/a7f3d0/14532d?text=Pasta+Full" alt="Recipe Image" class="w-full h-48 object-cover rounded-b-lg shadow-sm">
+                <img id="recipe-view-image" src="https://placehold.co/600x400/d97706/fef3c7?text=Beef+Stew" alt="Hearty Beef and Vegetable Stew" class="w-full h-48 object-cover rounded-b-lg shadow-sm">
                 <div class="image-overlay">
-                    <h1 id="recipe-view-title" class="text-2xl font-bold">Hearty Beef and Vegetable Stew</h1> <div id="recipe-view-tags" class="flex flex-wrap items-center">
+                    <h1 id="recipe-view-title" class="text-2xl font-bold">Hearty Beef and Vegetable Stew</h1>
+                    <div id="recipe-view-tags" class="flex flex-wrap items-center">
                         <span class="tag bg-orange-100 text-orange-800 !text-xs !px-3 !py-1"> <svg class="tag-icon !w-3 !h-3 !mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Long </span>
                         <span class="tag bg-red-100 text-red-800 !text-xs !px-3 !py-1"> <svg class="tag-icon !w-3 !h-3 !mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" /></svg> Beef </span>
                          <span class="tag bg-indigo-100 text-indigo-800 !text-xs !px-3 !py-1"> <svg class="tag-icon !w-3 !h-3 !mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 0 1 6.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0 1 20 13a7.975 7.975 0 0 1-2.343 5.657z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1 0 12.015 11L11 14H9c0 .768.293 1.536.879 2.121z" /></svg> Comfort Food </span>
@@ -202,25 +207,25 @@
                 <h2 class="text-lg font-semibold mb-2 text-green-800 border-b pb-1 border-green-200">Ingredients</h2>
                 <div class="overflow-x-auto">
                     <table id="ingredients-table" class="w-full">
-                        <thead> <tr> <th class="w-8"></th> <th>Name</th> <th>Quantity</th> <th>Notes</th> </tr> </thead>
+                        <thead> <tr> <th class="w-8"></th> <th>Name</th> <th>Quantity</th> </tr> </thead>
                         <tbody>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Beef Chuck Roast</td> <td>2 lbs</td> <td>Cut into 1-inch cubes</td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>All-Purpose Flour</td> <td>1/4 cup</td> <td>For dredging</td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Salt</td> <td>1 tsp</td> <td>Or to taste</td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Black Pepper</td> <td>1/2 tsp</td> <td>Freshly ground</td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Olive Oil</td> <td>2 tbsp</td> <td></td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Yellow Onion</td> <td>1 large</td> <td>Chopped</td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Garlic</td> <td>4 cloves</td> <td>Minced</td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Beef Broth</td> <td>4 cups</td> <td>Low sodium preferred</td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Tomato Paste</td> <td>2 tbsp</td> <td></td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Worcestershire Sauce</td> <td>1 tbsp</td> <td></td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Dried Thyme</td> <td>1 tsp</td> <td></td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Bay Leaf</td> <td>1</td> <td></td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Potatoes</td> <td>1.5 lbs</td> <td>Peeled and cubed (e.g., Russet or Yukon Gold)</td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Carrots</td> <td>4 medium</td> <td>Peeled and sliced</td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Celery Stalks</td> <td>3</td> <td>Sliced</td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Frozen Peas</td> <td>1 cup</td> <td>Optional</td> </tr>
-                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Cornstarch (optional)</td> <td>2 tbsp</td> <td>Mixed with 2 tbsp cold water, for thickening</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Beef Chuck Roast</td> <td>2 lbs</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>All-Purpose Flour</td> <td>1/4 cup</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Salt</td> <td>1 tsp</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Black Pepper</td> <td>1/2 tsp</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Olive Oil</td> <td>2 tbsp</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Yellow Onion</td> <td>1 large</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Garlic</td> <td>4 cloves</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Beef Broth</td> <td>4 cups</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Tomato Paste</td> <td>2 tbsp</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Worcestershire Sauce</td> <td>1 tbsp</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Dried Thyme</td> <td>1 tsp</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Bay Leaf</td> <td>1</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Potatoes</td> <td>1.5 lbs</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Carrots</td> <td>4 medium</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Celery Stalks</td> <td>3</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Frozen Peas</td> <td>1 cup</td> </tr>
+                            <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Cornstarch (optional)</td> <td>2 tbsp</td> </tr>
                         </tbody>
                     </table>
                 </div>
@@ -247,8 +252,10 @@
     </div>
 
     <div id="recipe-form" hidden>
-         <div class="fullscreen-header">
-            <button id="cancel-recipe-form-button" class="form-button text-gray-600 hover:text-gray-800">Cancel</button> <h2 id="recipe-form-title" class="text-lg font-semibold text-green-800">Add New Recipe</h2> <button id="save-recipe-button" class="form-button bg-green-600 text-white hover:bg-green-700">Save</button>
+        <div class="fullscreen-header">
+            <button id="cancel-recipe-form-button" class="form-button text-gray-600 hover:text-gray-800">Cancel</button>
+            <h2 id="recipe-form-title" class="text-lg font-semibold text-green-800">Add New Recipe</h2>
+            <button id="save-recipe-button" class="form-button bg-green-600 text-white hover:bg-green-700">Save</button>
         </div>
         <div class="fullscreen-content space-y-4">
             <input type="hidden" id="recipe-edit-id" value="">
@@ -256,11 +263,11 @@
                 <label for="recipe-title-input" class="form-label">Recipe Title</label>
                 <input type="text" id="recipe-title-input" name="recipe-title" class="form-input" placeholder="e.g., Classic Pasta Bake">
             </div>
-             <div>
+            <div>
                 <label for="recipe-image-url-input" class="form-label">Image URL (Optional)</label>
                 <input type="url" id="recipe-image-url-input" name="recipe-image-url" class="form-input" placeholder="https://example.com/image.jpg">
             </div>
-             <div>
+            <div>
                 <label for="recipe-tags-input" class="form-label">Tags</label>
                 <input type="text" id="recipe-tags-input" name="recipe-tags" class="form-input" placeholder="e.g., pasta, beef, quick, dinner">
                 <p class="text-xs text-gray-500 mt-1">Comma-separated list of tags.</p>
@@ -268,20 +275,34 @@
             <div>
                 <label class="form-label">Ingredients</label>
                 <div id="ingredients-list-container" class="space-y-2">
-                    <div class="ingredient-row template hidden"> <input type="text" name="ingredient-name[]" class="form-input !w-2/5" placeholder="Name">
-                        <input type="text" name="ingredient-qty[]" class="form-input !w-1/5" placeholder="Qty">
-                        <input type="text" name="ingredient-notes[]" class="form-input !w-2/5" placeholder="Notes (Optional)">
+                    <div class="ingredient-row template hidden">
+                         <button type="button" class="drag-handle" aria-label="Drag to reorder">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="5" cy="5" r="1.5"/>
+                                <circle cx="5" cy="12" r="1.5"/>
+                                <circle cx="5" cy="19" r="1.5"/>
+                                <circle cx="12" cy="5" r="1.5"/>
+                                <circle cx="12" cy="12" r="1.5"/>
+                                <circle cx="12" cy="19" r="1.5"/>
+                            </svg>
+                        </button>
+                        <input type="text" name="ingredient-name[]" class="form-input !w-3/5" placeholder="Name">
+                        <input type="text" name="ingredient-qty[]" class="form-input !w-2/5" placeholder="Qty">
                         <button type="button" class="remove-ingredient-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"> <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /> </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
                         </button>
                     </div>
                 </div>
                 <button type="button" id="add-ingredient-button" class="add-ingredient-btn mt-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /> </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
                     Add Ingredient
                 </button>
             </div>
-             <div>
+            <div>
                 <label for="recipe-instructions-input" class="form-label">Instructions</label>
                 <textarea id="recipe-instructions-input" name="recipe-instructions" class="form-textarea" placeholder="Step 1: ...&#10;Step 2: ..."></textarea>
             </div>
@@ -291,7 +312,7 @@
     <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden opacity-0"></div>
     <div id="side-menu" class="fixed top-0 right-0 h-full w-64 bg-gradient-to-b from-white to-green-50 shadow-lg z-40 transform translate-x-full flex flex-col">
         <div class="p-4 flex justify-between items-center border-b border-green-200"> <h2 class="text-lg font-semibold text-green-800">Menu</h2> <button id="close-menu-button" class="p-2 text-gray-500 hover:text-gray-700"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6"> <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /> </svg> </button> </div>
-        <nav class="flex-grow p-4 space-y-2"> <a href="#" class="menu-item flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 hover:bg-green-100 hover:text-green-800 transition-colors duration-150"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg> <span>Main page</span> </a> <a href="#" class="menu-item flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 hover:bg-green-100 hover:text-green-800 transition-colors duration-150"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.004.827c-.292.24-.437.613-.43.992a6.759 6.759 0 0 1 0 1.064c.007.378.138.75.43.99l1.005.828c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.6 6.6 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437.613.43-.992a6.759 6.759 0 0 1 0-1.064c-.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg> <span>Settings</span> </a> <a href="#" class="menu-item flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 hover:bg-green-100 hover:text-green-800 transition-colors duration-150"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" /></svg> <span>About</span> </a> </nav>
+        <nav class="flex-grow p-4 space-y-2"> <a href="#" class="menu-item flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 hover:bg-green-100 hover:text-green-800 transition-colors duration-150"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg> <span>Main page</span> </a> <a href="#" class="menu-item flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 hover:bg-green-100 hover:text-green-800 transition-colors duration-150"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.004.827c-.292.24-.437.613-.43.992a6.759 6.759 0 0 1 0 1.064c.007.378.138.75.43.99l1.005.828c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.6 6.6 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437.613.43-.992a6.759 6.759 0 0 1 0-1.064c-.007-.378-.138.75-.43-.99l-1.004-.828a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg> <span>Settings</span> </a> <a href="#" class="menu-item flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 hover:bg-green-100 hover:text-green-800 transition-colors duration-150"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" /></svg> <span>About</span> </a> </nav>
         <div class="p-4 border-t border-green-200 mt-auto"> <p class="text-xs text-gray-500 text-center"> v1.0.0 - Made by <a href="https://tairesh.github.io" target="_blank" rel="noopener noreferrer" class="text-green-600 hover:text-green-800 underline">Ilia Agafonov</a> </p> </div>
     </div>
 
@@ -300,7 +321,7 @@
 
             // --- Element References ---
             const recipeView = document.getElementById('recipe-view');
-            const recipeForm = document.getElementById('recipe-form'); // Renamed
+            const recipeForm = document.getElementById('recipe-form');
             const backButton = document.getElementById('back-button');
             const editButton = document.getElementById('edit-button');
             const favoriteButtonView = document.getElementById('favorite-button-view');
@@ -314,22 +335,26 @@
             const menuItems = document.querySelectorAll('#side-menu .menu-item');
             const cardFavoriteButtons = document.querySelectorAll('.favorite-button-card');
             const ingredientsTableBody = recipeView?.querySelector('#ingredients-table tbody');
-            const ingredientCheckboxes = ingredientsTableBody?.querySelectorAll('.ingredient-checkbox') ?? [];
             const selectAllButton = document.getElementById('select-all-ingredients-button');
             const addToListButton = document.getElementById('add-to-list-button');
             const centralAddButtonTrigger = document.getElementById('central-add-button-trigger');
-            const cancelRecipeFormButton = document.getElementById('cancel-recipe-form-button'); // Renamed
+            const cancelRecipeFormButton = document.getElementById('cancel-recipe-form-button');
             const saveRecipeButton = document.getElementById('save-recipe-button');
             const ingredientsListContainer = document.getElementById('ingredients-list-container');
             const addIngredientButton = document.getElementById('add-ingredient-button');
             const recipeFormTitle = document.getElementById('recipe-form-title');
             const recipeEditIdInput = document.getElementById('recipe-edit-id');
+            const recipeInstructionsInput = document.getElementById('recipe-instructions-input');
 
             // --- Recipe View Elements (for populating edit form) ---
             const recipeViewImage = document.getElementById('recipe-view-image');
             const recipeViewTitle = document.getElementById('recipe-view-title');
             const recipeViewTagsContainer = document.getElementById('recipe-view-tags');
             const recipeViewInstructionsContainer = document.getElementById('recipe-view-instructions');
+
+            // --- Drag & Drop State ---
+            let draggedItem = null;
+            let touchStartY = 0;
 
             // --- Helper: Show/Hide Fullscreen Views ---
             function showFullscreenView(viewElement) {
@@ -347,65 +372,64 @@
                 }
             }
 
+            // --- Helper: Auto-resize Textarea ---
+            function autoResizeTextarea(textarea) {
+                if (!textarea) return;
+                textarea.style.height = 'auto';
+                textarea.style.height = Math.max(textarea.scrollHeight, 120) + 'px'; // Keep min height logic
+            }
+
+
             // --- Recipe View Logic ---
             function openRecipeView() {
-                // TODO: In a real app, fetch recipe data by ID and populate the view
-                // For now, populate with the updated static content
-                populateRecipeViewWithSampleData(); // Call helper to populate view
-
-                const isFavorite = Math.random() < 0.5; // Example: Set initial favorite state
+                populateRecipeViewWithSampleData();
+                const isFavorite = Math.random() < 0.5;
                 if (favoriteButtonView) {
                     favoriteButtonView.classList.toggle('is-favorite', isFavorite);
                 }
-                if(ingredientCheckboxes.length > 0) {
-                    ingredientCheckboxes.forEach(cb => cb.checked = false);
-                    updateSelectAllButton();
+                const currentIngredientCheckboxes = ingredientsTableBody?.querySelectorAll('.ingredient-checkbox') ?? [];
+                if (currentIngredientCheckboxes.length > 0) {
+                    currentIngredientCheckboxes.forEach(cb => cb.checked = false);
+                    updateSelectAllButton(currentIngredientCheckboxes);
                 }
                 showFullscreenView(recipeView);
             }
 
-            // Helper function to populate recipe view with sample data
             function populateRecipeViewWithSampleData() {
-                if (!recipeViewTitle) return; // Make sure elements exist
+                 if (!recipeViewTitle || !ingredientsTableBody || !recipeViewInstructionsContainer) return;
 
-                 // Updated sample data
                 recipeViewTitle.textContent = "Hearty Beef and Vegetable Stew";
-                recipeViewImage.src = "https://placehold.co/600x400/d97706/fef3c7?text=Beef+Stew"; // Example image
+                recipeViewImage.src = "https://placehold.co/600x400/d97706/fef3c7?text=Beef+Stew";
                 recipeViewImage.alt = "Hearty Beef and Vegetable Stew";
 
-                // Clear existing tags and add new ones
                 recipeViewTagsContainer.innerHTML = `
                     <span class="tag bg-orange-100 text-orange-800 !text-xs !px-3 !py-1"> <svg class="tag-icon !w-3 !h-3 !mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Long </span>
                     <span class="tag bg-red-100 text-red-800 !text-xs !px-3 !py-1"> <svg class="tag-icon !w-3 !h-3 !mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" /></svg> Beef </span>
                     <span class="tag bg-indigo-100 text-indigo-800 !text-xs !px-3 !py-1"> <svg class="tag-icon !w-3 !h-3 !mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 0 1 6.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0 1 20 13a7.975 7.975 0 0 1-2.343 5.657z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1 0 12.015 11L11 14H9c0 .768.293 1.536.879 2.121z" /></svg> Comfort Food </span>
                 `;
 
-                // Clear existing ingredients and add new ones
                 ingredientsTableBody.innerHTML = `
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Beef Chuck Roast</td> <td>2 lbs</td> <td>Cut into 1-inch cubes</td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>All-Purpose Flour</td> <td>1/4 cup</td> <td>For dredging</td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Salt</td> <td>1 tsp</td> <td>Or to taste</td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Black Pepper</td> <td>1/2 tsp</td> <td>Freshly ground</td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Olive Oil</td> <td>2 tbsp</td> <td></td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Yellow Onion</td> <td>1 large</td> <td>Chopped</td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Garlic</td> <td>4 cloves</td> <td>Minced</td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Beef Broth</td> <td>4 cups</td> <td>Low sodium preferred</td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Tomato Paste</td> <td>2 tbsp</td> <td></td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Worcestershire Sauce</td> <td>1 tbsp</td> <td></td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Dried Thyme</td> <td>1 tsp</td> <td></td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Bay Leaf</td> <td>1</td> <td></td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Potatoes</td> <td>1.5 lbs</td> <td>Peeled and cubed (e.g., Russet or Yukon Gold)</td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Carrots</td> <td>4 medium</td> <td>Peeled and sliced</td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Celery Stalks</td> <td>3</td> <td>Sliced</td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Frozen Peas</td> <td>1 cup</td> <td>Optional</td> </tr>
-                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Cornstarch (optional)</td> <td>2 tbsp</td> <td>Mixed with 2 tbsp cold water, for thickening</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Beef Chuck Roast</td> <td>2 lbs</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>All-Purpose Flour</td> <td>1/4 cup</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Salt</td> <td>1 tsp</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Black Pepper</td> <td>1/2 tsp</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Olive Oil</td> <td>2 tbsp</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Yellow Onion</td> <td>1 large</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Garlic</td> <td>4 cloves</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Beef Broth</td> <td>4 cups</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Tomato Paste</td> <td>2 tbsp</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Worcestershire Sauce</td> <td>1 tbsp</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Dried Thyme</td> <td>1 tsp</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Bay Leaf</td> <td>1</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Potatoes</td> <td>1.5 lbs</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Carrots</td> <td>4 medium</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Celery Stalks</td> <td>3</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Frozen Peas</td> <td>1 cup</td> </tr>
+                    <tr> <td><input type="checkbox" class="ingredient-checkbox"></td> <td>Cornstarch (optional)</td> <td>2 tbsp</td> </tr>
                 `;
-                 // Re-query checkboxes after updating table body
                 const newCheckboxes = ingredientsTableBody.querySelectorAll('.ingredient-checkbox');
-                newCheckboxes.forEach(checkbox => checkbox.addEventListener('change', updateSelectAllButton));
+                newCheckboxes.forEach(checkbox => checkbox.addEventListener('change', () => updateSelectAllButton(newCheckboxes)));
 
-
-                // Clear existing instructions and add new ones
                 recipeViewInstructionsContainer.innerHTML = `
                     <ol id="instructions-list" class="list-decimal list-inside space-y-3">
                         <li> <strong>Prepare the Beef:</strong> Pat the beef cubes dry with paper towels. In a bowl, combine flour, salt, and pepper. Add the beef cubes and toss to coat evenly. </li>
@@ -430,7 +454,6 @@
             function toggleRecipeViewFavorite() {
                 favoriteButtonView?.classList.toggle('is-favorite');
                 console.log("Recipe View Favorite status toggled");
-                // TODO: Save favorite status
             }
 
             // --- Recipe Form Logic (Add & Edit) ---
@@ -449,17 +472,17 @@
                     recipeForm.querySelector('#recipe-instructions-input').value = recipeData.instructions || '';
 
                     if (recipeData.ingredients && recipeData.ingredients.length > 0) {
-                        recipeData.ingredients.forEach(ing => addIngredientRow(ing.name, ing.qty, ing.notes));
+                        recipeData.ingredients.forEach(ing => addIngredientRow(ing.name, ing.qty));
                     } else {
-                         addIngredientRow();
+                        addIngredientRow();
                     }
 
                 } else {
                     recipeFormTitle.textContent = 'Add New Recipe';
                     addIngredientRow();
                 }
-
                 showFullscreenView(recipeForm);
+                autoResizeTextarea(recipeInstructionsInput);
             }
 
             function closeRecipeForm() {
@@ -469,9 +492,7 @@
             function handleSaveRecipe() {
                 const recipeId = recipeEditIdInput.value;
                 const isEditing = !!recipeId;
-
                 console.log(isEditing ? "Saving changes for recipe ID:" : "Saving new recipe", recipeId || '(new)');
-
                 const title = recipeForm.querySelector('#recipe-title-input')?.value;
                 const imageUrl = recipeForm.querySelector('#recipe-image-url-input')?.value;
                 const tags = recipeForm.querySelector('#recipe-tags-input')?.value.split(',').map(tag => tag.trim()).filter(tag => tag);
@@ -480,12 +501,10 @@
                 ingredientsListContainer?.querySelectorAll('.ingredient-row:not(.template)').forEach(row => {
                     const name = row.querySelector('input[name="ingredient-name[]"]')?.value;
                     const qty = row.querySelector('input[name="ingredient-qty[]"]')?.value;
-                    const notes = row.querySelector('input[name="ingredient-notes[]"]')?.value;
                     if (name && qty) {
-                        ingredients.push({ name, qty, notes });
+                        ingredients.push({ name, qty });
                     }
                 });
-
                 const recipeData = { title, imageUrl, tags, ingredients, instructions };
                 if (isEditing) {
                     recipeData.id = recipeId;
@@ -498,19 +517,27 @@
                 closeRecipeForm();
             }
 
-            function addIngredientRow(name = '', qty = '', notes = '') {
+            function addIngredientRow(name = '', qty = '') {
                 const templateRow = ingredientsListContainer?.querySelector('.ingredient-row.template');
                 if (templateRow) {
                     const newRow = templateRow.cloneNode(true);
                     newRow.classList.remove('template', 'hidden');
+                    newRow.setAttribute('draggable', true);
                     newRow.querySelector('input[name="ingredient-name[]"]').value = name;
                     newRow.querySelector('input[name="ingredient-qty[]"]').value = qty;
-                    newRow.querySelector('input[name="ingredient-notes[]"]').value = notes;
-
                     const removeBtn = newRow.querySelector('.remove-ingredient-btn');
-                    if(removeBtn) {
+                    const dragHandle = newRow.querySelector('.drag-handle');
+                    if (removeBtn) {
                         removeBtn.addEventListener('click', removeIngredientRow);
                     }
+                    if (dragHandle) {
+                        dragHandle.addEventListener('dragstart', handleDragStart);
+                        dragHandle.addEventListener('touchstart', handleTouchStart, { passive: false });
+                    }
+                    newRow.addEventListener('dragover', handleDragOver);
+                    newRow.addEventListener('dragleave', handleDragLeave);
+                    newRow.addEventListener('drop', handleDrop);
+                    newRow.addEventListener('dragend', handleDragEnd);
                     ingredientsListContainer.appendChild(newRow);
                 }
             }
@@ -528,37 +555,37 @@
                 const currentTitle = recipeViewTitle?.textContent || '';
                 const currentImageUrl = recipeViewImage?.src || '';
                 const currentTags = [];
-                 recipeViewTagsContainer?.querySelectorAll('.tag').forEach(tagEl => {
-                     const icon = tagEl.querySelector('svg');
-                     let tagText = tagEl.textContent.trim();
-                     // A simple way to remove icon text if needed, might need refinement
-                     if (icon) {
-                         tagText = tagText.replace(icon.textContent, '').trim();
-                     }
-                      if(tagText) currentTags.push(tagText);
-                 });
+                recipeViewTagsContainer?.querySelectorAll('.tag').forEach(tagEl => {
+                    const icon = tagEl.querySelector('svg');
+                    let tagText = tagEl.textContent.trim();
+                    if (icon && icon.nextSibling && icon.nextSibling.nodeType === Node.TEXT_NODE) {
+                        tagText = icon.nextSibling.textContent.trim();
+                    }
+                    if (tagText) currentTags.push(tagText);
+                });
 
                 const currentIngredients = [];
                 ingredientsTableBody?.querySelectorAll('tr').forEach(row => {
                     const name = row.cells[1]?.textContent;
                     const quantity = row.cells[2]?.textContent;
-                    const notes = row.cells[3]?.textContent;
-                     if (name && quantity) {
-                        currentIngredients.push({ name: name.trim(), qty: quantity.trim(), notes: notes?.trim() || '' });
+                    if (name && quantity) {
+                        currentIngredients.push({ name: name.trim(), qty: quantity.trim() });
                     }
                 });
 
                 let currentInstructions = '';
                 recipeViewInstructionsContainer?.querySelectorAll('li').forEach((li) => {
-                     // Try to remove the strong tag content if it's just the step number
-                     const strongTag = li.querySelector('strong');
-                     let text = li.textContent.trim();
-                     if (strongTag && /^\d+\:$/.test(strongTag.textContent.trim())) {
-                         text = text.replace(strongTag.textContent, '').trim();
-                     }
-                     currentInstructions += text + '\n'; // Add newline between steps
+                    let text = '';
+                    li.childNodes.forEach(node => {
+                        if (node.nodeType === Node.TEXT_NODE) {
+                            text += node.textContent;
+                        } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== 'STRONG') {
+                            text += node.textContent;
+                        }
+                    });
+                    currentInstructions += text.trim() + '\n';
                 });
-                currentInstructions = currentInstructions.trim(); // Trim trailing newline
+                currentInstructions = currentInstructions.trim();
 
 
                 const recipeData = {
@@ -569,7 +596,6 @@
                     ingredients: currentIngredients,
                     instructions: currentInstructions
                 };
-
                 openRecipeForm('edit', recipeData);
             }
 
@@ -580,33 +606,29 @@
                 const button = event.currentTarget;
                 button.classList.toggle('is-favorite');
                 console.log("Card Favorite status toggled:", button.classList.contains('is-favorite'));
-                // TODO: Save favorite status
             }
 
             // --- Ingredient Checkbox Logic ---
-            function updateSelectAllButton() {
-                 // Re-query checkboxes inside recipe view each time
-                const currentCheckboxes = recipeView.querySelectorAll('#ingredients-table tbody .ingredient-checkbox');
+            function updateSelectAllButton(checkboxes) {
+                const currentCheckboxes = checkboxes || recipeView.querySelectorAll('#ingredients-table tbody .ingredient-checkbox');
                 if (!selectAllButton || currentCheckboxes.length === 0) {
-                     if(selectAllButton) selectAllButton.textContent = 'Select all'; // Reset if no checkboxes
-                     return;
-                 };
-
+                    if (selectAllButton) selectAllButton.textContent = 'Select all';
+                    return;
+                };
                 const allChecked = Array.from(currentCheckboxes).every(cb => cb.checked);
                 selectAllButton.textContent = allChecked ? 'Deselect all' : 'Select all';
             }
 
             function toggleSelectAllIngredients() {
-                 const currentCheckboxes = recipeView.querySelectorAll('#ingredients-table tbody .ingredient-checkbox');
+                const currentCheckboxes = recipeView.querySelectorAll('#ingredients-table tbody .ingredient-checkbox');
                 if (!selectAllButton || currentCheckboxes.length === 0) return;
-
                 const currentlySelectingAll = selectAllButton.textContent.includes('Select all');
                 currentCheckboxes.forEach(cb => cb.checked = currentlySelectingAll);
-                updateSelectAllButton();
+                updateSelectAllButton(currentCheckboxes);
             }
 
             function handleAddToList() {
-                 const currentCheckboxes = recipeView.querySelectorAll('#ingredients-table tbody .ingredient-checkbox');
+                const currentCheckboxes = recipeView.querySelectorAll('#ingredients-table tbody .ingredient-checkbox');
                 const selectedIngredients = [];
                 if (currentCheckboxes.length > 0) {
                     currentCheckboxes.forEach(cb => {
@@ -626,7 +648,6 @@
                 } else {
                     alert("No ingredients selected to add.");
                 }
-                 // TODO: Implement actual shopping list logic
             }
 
             // --- Side Menu Logic ---
@@ -646,6 +667,112 @@
                 }, 300);
             }
 
+            // --- Drag and Drop Logic ---
+            function handleDragStart(e) {
+                draggedItem = e.target.closest('.ingredient-row');
+                if (!draggedItem) return;
+                e.dataTransfer.setData('text/plain', null);
+                e.dataTransfer.effectAllowed = 'move';
+                setTimeout(() => {
+                    draggedItem.classList.add('dragging');
+                }, 0);
+                e.stopPropagation();
+            }
+
+            function handleDragEnd(e) {
+                if (draggedItem) {
+                    draggedItem.classList.remove('dragging');
+                }
+                ingredientsListContainer?.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+                draggedItem = null;
+            }
+
+            function handleDragOver(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                const targetRow = e.target.closest('.ingredient-row:not(.template)'); // Ensure not dropping on template
+                if (!targetRow || targetRow === draggedItem) return;
+                ingredientsListContainer?.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+                targetRow.classList.add('drag-over');
+            }
+
+            function handleDragLeave(e) {
+                const targetRow = e.target.closest('.ingredient-row');
+                if (targetRow && !e.relatedTarget?.closest('.ingredient-row')) { // Check if leaving the row entirely
+                     targetRow.classList.remove('drag-over');
+                 }
+            }
+
+            function handleDrop(e) {
+                e.preventDefault();
+                const targetRow = e.target.closest('.ingredient-row:not(.template)'); // Ensure not dropping on template
+                targetRow?.classList.remove('drag-over');
+
+                if (!targetRow || targetRow === draggedItem || !draggedItem) return;
+
+                const targetRect = targetRow.getBoundingClientRect();
+                const dropY = e.clientY;
+
+                // Insert into the main container, relative to the target row
+                 if (dropY < targetRect.top + targetRect.height / 2) {
+                    ingredientsListContainer?.insertBefore(draggedItem, targetRow);
+                } else {
+                    ingredientsListContainer?.insertBefore(draggedItem, targetRow.nextSibling);
+                }
+            }
+
+            // --- Touch Drag Logic ---
+            function handleTouchStart(e) {
+                draggedItem = e.target.closest('.ingredient-row');
+                if (!draggedItem) return;
+                touchStartY = e.touches[0].clientY;
+                draggedItem.classList.add('dragging');
+                e.preventDefault();
+                e.stopPropagation();
+                document.addEventListener('touchmove', handleTouchMove, { passive: false });
+                document.addEventListener('touchend', handleTouchEnd);
+            }
+
+            function handleTouchMove(e) {
+                if (!draggedItem) return;
+                e.preventDefault();
+                const touchCurrentY = e.touches[0].clientY;
+                const elementOver = document.elementFromPoint(e.touches[0].clientX, touchCurrentY);
+                const targetRow = elementOver?.closest('.ingredient-row:not(.dragging):not(.template)');
+                ingredientsListContainer?.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+                if (targetRow) {
+                    targetRow.classList.add('drag-over');
+                }
+            }
+
+            function handleTouchEnd(e) {
+                if (!draggedItem) return;
+                let finalTargetRow = null;
+                const elementsOver = document.elementsFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+                for (let el of elementsOver) {
+                    const row = el.closest('.ingredient-row:not(.dragging):not(.template)');
+                    if (row) {
+                        finalTargetRow = row;
+                        break;
+                    }
+                }
+                draggedItem.classList.remove('dragging');
+                ingredientsListContainer?.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+
+                if (finalTargetRow && finalTargetRow !== draggedItem) {
+                    const targetRect = finalTargetRow.getBoundingClientRect();
+                    const dropY = e.changedTouches[0].clientY;
+                    if (dropY < targetRect.top + targetRect.height / 2) {
+                        ingredientsListContainer?.insertBefore(draggedItem, finalTargetRow);
+                    } else {
+                        ingredientsListContainer?.insertBefore(draggedItem, finalTargetRow.nextSibling);
+                    }
+                }
+                document.removeEventListener('touchmove', handleTouchMove);
+                document.removeEventListener('touchend', handleTouchEnd);
+                draggedItem = null;
+            }
+
             // --- Event Listeners ---
             recipeCardLinks.forEach(link => {
                 link.addEventListener('click', openRecipeView);
@@ -658,9 +785,24 @@
             cancelRecipeFormButton?.addEventListener('click', closeRecipeForm);
             saveRecipeButton?.addEventListener('click', handleSaveRecipe);
             addIngredientButton?.addEventListener('click', () => addIngredientRow());
-            ingredientsListContainer?.querySelectorAll('.ingredient-row:not(.template) .remove-ingredient-btn').forEach(btn => {
-                 btn.addEventListener('click', removeIngredientRow);
+
+            // Add listeners to initial non-template rows (if any exist on load, though unlikely now)
+            ingredientsListContainer?.querySelectorAll('.ingredient-row:not(.template)').forEach(row => {
+                row.setAttribute('draggable', true);
+                const handle = row.querySelector('.drag-handle');
+                if (handle) {
+                    handle.addEventListener('dragstart', handleDragStart);
+                    handle.addEventListener('touchstart', handleTouchStart, { passive: false });
+                }
+                 row.addEventListener('dragover', handleDragOver);
+                 row.addEventListener('dragleave', handleDragLeave);
+                 row.addEventListener('drop', handleDrop);
+                 row.addEventListener('dragend', handleDragEnd);
+                 const removeBtn = row.querySelector('.remove-ingredient-btn');
+                 if(removeBtn) removeBtn.addEventListener('click', removeIngredientRow);
             });
+
+            recipeInstructionsInput?.addEventListener('input', () => autoResizeTextarea(recipeInstructionsInput));
 
             cardFavoriteButtons.forEach(button => {
                 button.addEventListener('click', toggleCardFavorite);
@@ -668,11 +810,11 @@
 
             selectAllButton?.addEventListener('click', toggleSelectAllIngredients);
             addToListButton?.addEventListener('click', handleAddToList);
-             // Add listeners dynamically when view opens or table updates if needed,
-             // but for now, assuming they are present on load for the initial view state.
-            if (ingredientCheckboxes.length > 0) {
-                ingredientCheckboxes.forEach(checkbox => {
-                    checkbox.addEventListener('change', updateSelectAllButton);
+
+            const initialCheckboxes = ingredientsTableBody?.querySelectorAll('.ingredient-checkbox') ?? [];
+            if (initialCheckboxes.length > 0) {
+                initialCheckboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', () => updateSelectAllButton(initialCheckboxes));
                 });
             }
 
@@ -687,10 +829,12 @@
             });
 
             // Initial setup
-            updateSelectAllButton();
+            updateSelectAllButton(initialCheckboxes);
+            autoResizeTextarea(recipeInstructionsInput);
 
         }); // End DOMContentLoaded
     </script>
 
 </body>
+
 </html>
