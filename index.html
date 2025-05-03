@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipes Vault Mockup</title>
-    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -124,14 +124,14 @@
         }
         .form-textarea { resize: none; overflow: hidden; line-height: 1.6; }
         .ingredient-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; background-color: white; border: 1px solid transparent; }
-        .ingredient-row.dragging { opacity: 0.5; background-color: #f0fdf4; border-color: #a7f3d0; } /* Added border during drag */
+        .ingredient-row.dragging { opacity: 0.5; background-color: #f0fdf4; border-color: #a7f3d0; }
         .ingredient-row.drag-over { border-bottom: 2px solid #16a34a; }
 
         .ingredient-row input { flex-grow: 1; }
         .drag-handle {
             display: flex; align-items: center; justify-content: center;
             padding: 0.5rem 0.25rem; cursor: grab; color: #9ca3af;
-            touch-action: none; /* Important for touch */
+            touch-action: none;
         }
         .drag-handle:active { cursor: grabbing; }
         .drag-handle svg { width: 16px; height: 16px; stroke: #9ca3af; }
@@ -164,11 +164,117 @@
 <body class="bg-gray-50 h-screen flex flex-col relative overflow-hidden">
 
     <main id="main-content" class="p-4 space-y-6">
-        <section> <h2 class="text-lg font-semibold mb-3 text-green-900">Try now:</h2> <div class="grid grid-cols-3 gap-3"> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/fde68a/ca8a04?text=Omelette" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Fluffy Omelette</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-blue-100 text-blue-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Fast </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/fecaca/b91c1c?text=Chili" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Quick Veggie Chili</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> <span class="tag bg-lime-100 text-lime-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662v4.286h1.5a.75.75 0 0 1 .75.75V19.5a.75.75 0 0 1-.75.75h-1.5v1.138c0 .987.802 1.79 1.789 1.79h6.422c.987 0 1.79-.802 1.79-1.79V20.25h-1.5a.75.75 0 0 1-.75-.75V16.5a.75.75 0 0 1 .75.75h1.5v-4.286Z" /></svg> Vegan </span> </div> </div> </div> </div> </section>
-        <section> <h2 class="text-lg font-semibold mb-3 text-green-900">Your quick access</h2> <div class="grid grid-cols-3 gap-3"> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/059669/e0f2f1?text=Tacos" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Spicy Beef Tacos</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/22c55e/14532d?text=Chicken" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Roast Chicken Simple</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-orange-100 text-orange-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Long </span> </div> </div> </div> </div> </section>
-        <section> <h2 class="text-lg font-semibold mb-3 text-green-900">Favorites</h2> <div class="grid grid-cols-3 gap-3"> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/a7f3d0/14532d?text=Pasta" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Classic Pasta Bake</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/059669/e0f2f1?text=Tacos" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Spicy Beef Tacos</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div> </div> </div> </section>
-        <section> <h2 class="text-lg font-semibold mb-3 text-green-900">Your cookbook</h2> <div class="grid grid-cols-3 gap-3"> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/4ade80/14532d?text=Soup" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Hearty Lentil Soup</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-lime-100 text-lime-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662v4.286h1.5a.75.75 0 0 1 .75.75V19.5a.75.75 0 0 1-.75.75h-1.5v1.138c0 .987.802 1.79 1.789 1.79h6.422c.987 0 1.79-.802 1.79-1.79V20.25h-1.5a.75.75 0 0 1-.75-.75V16.5a.75.75 0 0 1 .75.75h1.5v-4.286Z" /></svg> Vegan </span> </div> </div> </div> <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden"> <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button> <img src="https://placehold.co/300x200/a7f3d0/14532d?text=Pasta" alt="Recipe Image" class="w-full recipe-card-image object-cover"> <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Classic Pasta Bake</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div> </div> </div> </section>
-        <section> <h2 class="text-lg font-semibold mb-3 text-green-900">Discover More</h2> <div class="bg-gradient-to-br from-green-100 to-green-200 p-6 rounded-lg text-center"> <p class="text-green-800">New sections and features coming soon!</p> <div class="flex justify-center space-x-4 mt-4 text-green-600 opacity-50"> <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 0 1 6.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0 1 20 13a7.975 7.975 0 0 1-2.343 5.657z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" /></svg> <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg> </div> </div> </section>
+
+        <section>
+            <h2 class="text-lg font-semibold mb-3 text-green-900">Try now:</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/300x200/fde68a/ca8a04?text=Omelette" alt="Recipe Image" class="w-full recipe-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Fluffy Omelette</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-blue-100 text-blue-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Fast </span> </div> </div>
+                </div>
+                 <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/300x200/fecaca/b91c1c?text=Chili" alt="Recipe Image" class="w-full recipe-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Quick Veggie Chili</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> <span class="tag bg-lime-100 text-lime-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662v4.286h1.5a.75.75 0 0 1 .75.75V19.5a.75.75 0 0 1-.75.75h-1.5v1.138c0 .987.802 1.79 1.789 1.79h6.422c.987 0 1.79-.802 1.79-1.79V20.25h-1.5a.75.75 0 0 1-.75-.75V16.5a.75.75 0 0 1 .75.75h1.5v-4.286Z" /></svg> Vegan </span> </div> </div>
+                </div>
+                 <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/300x200/c4b5fd/6d28d9?text=Smoothie" alt="Recipe Image" class="w-full recipe-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Berry Smoothie</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-blue-100 text-blue-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Fast </span> </div> </div>
+                </div>
+                 <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/300x200/fcd34d/b45309?text=Pancakes" alt="Recipe Image" class="w-full recipe-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Weekend Pancakes</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-lg font-semibold mb-3 text-green-900">Your quick access</h2>
+             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/300x200/059669/e0f2f1?text=Tacos" alt="Recipe Image" class="w-full recipe-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Spicy Beef Tacos</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div>
+                </div>
+                <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/300x200/22c55e/14532d?text=Chicken" alt="Recipe Image" class="w-full recipe-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Roast Chicken Simple</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-orange-100 text-orange-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Long </span> </div> </div>
+                </div>
+                 <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/300x200/10b981/f0fdfa?text=Fish" alt="Recipe Image" class="w-full recipe-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Baked Salmon</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-blue-100 text-blue-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Fast </span> </div> </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-lg font-semibold mb-3 text-green-900">Favorites</h2>
+             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                 <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/300x200/a7f3d0/14532d?text=Pasta" alt="Recipe Image" class="w-full recipe-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Classic Pasta Bake</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div>
+                </div>
+                 <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/300x200/059669/e0f2f1?text=Tacos" alt="Recipe Image" class="w-full recipe-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Spicy Beef Tacos</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div>
+                </div>
+                 <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/400x250/34d399/166534?text=Curry" alt="Recipe Image" class="w-full community-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Vegan Thai Green Curry</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-blue-100 text-blue-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Fast </span> <span class="tag bg-lime-100 text-lime-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662v4.286h1.5a.75.75 0 0 1 .75.75V19.5a.75.75 0 0 1-.75.75h-1.5v1.138c0 .987.802 1.79 1.789 1.79h6.422c.987 0 1.79-.802 1.79-1.79V20.25h-1.5a.75.75 0 0 1-.75-.75V16.5a.75.75 0 0 1 .75.75h1.5v-4.286Z" /></svg> Vegan </span> </div> </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-lg font-semibold mb-3 text-green-900">Your cookbook</h2>
+             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/300x200/4ade80/14532d?text=Soup" alt="Recipe Image" class="w-full recipe-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Hearty Lentil Soup</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-lime-100 text-lime-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662v4.286h1.5a.75.75 0 0 1 .75.75V19.5a.75.75 0 0 1-.75.75h-1.5v1.138c0 .987.802 1.79 1.789 1.79h6.422c.987 0 1.79-.802 1.79-1.79V20.25h-1.5a.75.75 0 0 1-.75-.75V16.5a.75.75 0 0 1 .75.75h1.5v-4.286Z" /></svg> Vegan </span> </div> </div>
+                </div>
+                <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card is-favorite"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/300x200/a7f3d0/14532d?text=Pasta" alt="Recipe Image" class="w-full recipe-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Classic Pasta Bake</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div>
+                </div>
+                 <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/400x250/6ee7b7/14532d?text=Bread" alt="Recipe Image" class="w-full community-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">No-Knead Artisan Bread</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-orange-100 text-orange-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Long </span> </div> </div>
+                </div>
+                 <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/300x200/86efac/14532d?text=Salad" alt="Recipe Image" class="w-full recipe-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Summer Quinoa Salad</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-blue-100 text-blue-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Fast </span> <span class="tag bg-lime-100 text-lime-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662v4.286h1.5a.75.75 0 0 1 .75.75V19.5a.75.75 0 0 1-.75.75h-1.5v1.138c0 .987.802 1.79 1.789 1.79h6.422c.987 0 1.79-.802 1.79-1.79V20.25h-1.5a.75.75 0 0 1-.75-.75V16.5a.75.75 0 0 1 .75.75h1.5v-4.286Z" /></svg> Vegan </span> </div> </div>
+                </div>
+                 <div class="recipe-card-link bg-white rounded-lg shadow-md overflow-hidden">
+                     <button class="favorite-button-card"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg></button>
+                    <img src="https://placehold.co/400x250/16a34a/f0fdf4?text=Cake" alt="Recipe Image" class="w-full community-card-image object-cover">
+                    <div class="p-2"> <h3 class="font-semibold text-xs text-gray-800 truncate mb-1">Amazing Chocolate Cake</h3> <div class="flex flex-wrap items-center"> <span class="tag bg-green-100 text-green-800"> <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Medium </span> </div> </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-lg font-semibold mb-3 text-green-900">Discover More</h2>
+            <div class="bg-gradient-to-br from-green-100 to-green-200 p-6 rounded-lg text-center">
+                <p class="text-green-800">New sections and features coming soon!</p>
+                <div class="flex justify-center space-x-4 mt-4 text-green-600 opacity-50">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 0 1 6.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0 1 20 13a7.975 7.975 0 0 1-2.343 5.657z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" /></svg>
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>
+                </div>
+            </div>
+        </section>
 
     </main>
 
@@ -319,7 +425,6 @@
 
     <script>
         const app = window.Telegram.WebApp;
-        app.init();
         app.setHeaderColor('#374151');
         app.ready();
         document.addEventListener('DOMContentLoaded', () => {
@@ -381,7 +486,7 @@
             function autoResizeTextarea(textarea) {
                 if (!textarea) return;
                 textarea.style.height = 'auto';
-                textarea.style.height = Math.max(textarea.scrollHeight, 120) + 'px'; // Keep min height logic
+                textarea.style.height = Math.max(textarea.scrollHeight, 120) + 'px';
             }
 
 
@@ -695,7 +800,7 @@
             function handleDragOver(e) {
                 e.preventDefault();
                 e.dataTransfer.dropEffect = 'move';
-                const targetRow = e.target.closest('.ingredient-row:not(.template)'); // Ensure not dropping on template
+                const targetRow = e.target.closest('.ingredient-row:not(.template)');
                 if (!targetRow || targetRow === draggedItem) return;
                 ingredientsListContainer?.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
                 targetRow.classList.add('drag-over');
@@ -703,26 +808,25 @@
 
             function handleDragLeave(e) {
                 const targetRow = e.target.closest('.ingredient-row');
-                if (targetRow && !e.relatedTarget?.closest('.ingredient-row')) { // Check if leaving the row entirely
+                 if (targetRow && !e.relatedTarget?.closest('.ingredient-row')) {
                      targetRow.classList.remove('drag-over');
                  }
             }
 
             function handleDrop(e) {
                 e.preventDefault();
-                const targetRow = e.target.closest('.ingredient-row:not(.template)'); // Ensure not dropping on template
+                const targetRow = e.target.closest('.ingredient-row:not(.template)');
                 targetRow?.classList.remove('drag-over');
 
-                if (!targetRow || targetRow === draggedItem || !draggedItem) return;
+                if (!targetRow || targetRow === draggedItem || !draggedItem || !ingredientsListContainer) return; // Added check for container
 
                 const targetRect = targetRow.getBoundingClientRect();
                 const dropY = e.clientY;
 
-                // Insert into the main container, relative to the target row
                  if (dropY < targetRect.top + targetRect.height / 2) {
-                    ingredientsListContainer?.insertBefore(draggedItem, targetRow);
+                    ingredientsListContainer.insertBefore(draggedItem, targetRow); // Use container
                 } else {
-                    ingredientsListContainer?.insertBefore(draggedItem, targetRow.nextSibling);
+                    ingredientsListContainer.insertBefore(draggedItem, targetRow.nextSibling); // Use container
                 }
             }
 
@@ -751,7 +855,8 @@
             }
 
             function handleTouchEnd(e) {
-                if (!draggedItem) return;
+                if (!draggedItem || !ingredientsListContainer) return; // Added check for container
+
                 let finalTargetRow = null;
                 const elementsOver = document.elementsFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
                 for (let el of elementsOver) {
@@ -762,15 +867,15 @@
                     }
                 }
                 draggedItem.classList.remove('dragging');
-                ingredientsListContainer?.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+                ingredientsListContainer.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
 
                 if (finalTargetRow && finalTargetRow !== draggedItem) {
                     const targetRect = finalTargetRow.getBoundingClientRect();
                     const dropY = e.changedTouches[0].clientY;
                     if (dropY < targetRect.top + targetRect.height / 2) {
-                        ingredientsListContainer?.insertBefore(draggedItem, finalTargetRow);
+                        ingredientsListContainer.insertBefore(draggedItem, finalTargetRow); // Use container
                     } else {
-                        ingredientsListContainer?.insertBefore(draggedItem, finalTargetRow.nextSibling);
+                        ingredientsListContainer.insertBefore(draggedItem, finalTargetRow.nextSibling); // Use container
                     }
                 }
                 document.removeEventListener('touchmove', handleTouchMove);
@@ -791,7 +896,7 @@
             saveRecipeButton?.addEventListener('click', handleSaveRecipe);
             addIngredientButton?.addEventListener('click', () => addIngredientRow());
 
-            // Add listeners to initial non-template rows (if any exist on load, though unlikely now)
+            // Add listeners only to the initial non-template rows (if any)
             ingredientsListContainer?.querySelectorAll('.ingredient-row:not(.template)').forEach(row => {
                 row.setAttribute('draggable', true);
                 const handle = row.querySelector('.drag-handle');
